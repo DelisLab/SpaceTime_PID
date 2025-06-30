@@ -4,7 +4,7 @@ function [R_spacetime,S_spacetime,UYZ_spacetime,net_R_space,net_S_space,net_UYZ_
 %%Input:
         %EMG: Tensor [No. of timepoints x No. of Muscles x No. of trials]
         %TASK: Tensor [No. of timepoints x No. of parameters x No. of trials]
-
+        %window_length: The number of timepoints in each temporal window
 %%Output
         %R_spacetime,S_spacetime,UYZ_spacetime = Final output matrix for dimensionality reduction
         %net_R_space,net_S_space,net_UYZ_space = Spatial networks for community detection
@@ -132,18 +132,5 @@ for c = 1:size(TASK,2)
 end
 UYZ_spacetime=cat(1,UY_spacetime,UZ_spacetime);
 
-net_R_space={};net_S_space={};net_UYZ_space={};
-for c=1:size(R_spacetime,3)
-    for ii=1:size(R_spacetime,1)
-        A=squareform(R_spacetime(ii,:,c));
-        net_R_space=cat(2,net_R_space,A);
-        A=squareform(S_spacetime(ii,:,c));
-        net_S_space=cat(2,net_S_space,A);
-        A=squareform(UYZ_spacetime(ii,:,c));
-        net_UYZ_space=cat(2,net_UYZ_space,A);
-        A=squareform(UYZ_spacetime(ii+length(combos_t),:,c));
-        net_UYZ_space=cat(2,net_UYZ_space,A);
-    end
-end
 
 end
